@@ -1,13 +1,13 @@
 {
   "name": "vue-cli-plugin-netlify-lambda",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Vue Cli plugin for adding Netlify Lambda",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Netlify",
+  "license": "MIT",
   "dependencies": {
     "netlify-lambda": "1.0.0-babel-7-beta"
   }
