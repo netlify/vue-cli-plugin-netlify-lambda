@@ -10,8 +10,6 @@ Sets up [netlify-lambda](https://github.com/netlify/netlify-lambda) for vue-cli 
 vue add netlify-lambda
 ```
 
-_Note, until [this PR](https://github.com/vuejs/vue-cli/pull/1038/files) gets merged into vue-cli, this will also modify binaries in the project in a way that breaks their encoding, so only commit the relevant files_
-
 ## Usage
 
 This ads a `netlify.toml` and a `src/lambda` folder with an example `hello.js` lambda function.
@@ -21,4 +19,3 @@ Any js file added in `src/lambda` will be built as a lambda. It will be compiled
 When deployed to Netlify, the AWS lambda's are reachable under `/.netlify/functions/:name` - ie, the `hello.js` Lambda will be available under `/.netlify/functions/hello`.
 
 The plugin also sets up a proxy and runs the Lambdas locally, to simplify local development.
-
