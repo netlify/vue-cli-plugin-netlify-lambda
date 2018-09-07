@@ -4,11 +4,27 @@
   "description": "Vue Cli plugin for adding Netlify Lambda",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "<rootDir>/scripts/testSetup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "./generator/template/",
+      "./generator/generator.js"
+    ]
   },
   "author": "Netlify",
   "license": "MIT",
   "dependencies": {
-    "netlify-lambda": "1.0.0-babel-7-beta"
+    "@vue/cli": "^3.0.1",
+    "@vue/cli-plugin-babel": "^3.0.1",
+    "@vue/cli-service": "^3.0.1",
+    "@vue/cli-test-utils": "^3.0.1",
+    "jest": "^23.5.0",
+    "netlify-lambda": "1.0.0-babel-7-beta",
+    "rimraf": "^2.6.2"
   }
 }
