@@ -8,6 +8,7 @@
   },
   "author": "Netlify",
   "license": "MIT",
+  "repository": "netlify/vue-cli-plugin-netlify-lambda",
   "dependencies": {
     "netlify-lambda": "1.0.0-babel-7-beta"
   }

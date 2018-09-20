@@ -6,11 +6,12 @@ module.exports = (api, projectOptions) => {
   const {build, serve} = api.service.commands;
   const buildFn = build.fn;
   const serveFn = serve.fn;
+  const webpackConfig = projectOptions.pluginOptions && projectOptions.pluginOptions.netlify && projectOptions.pluginOptions.netlify.webpackConfig;
 
   build.fn = (...args) => {
     return buildFn(...args).then((res) => {
       return lambdaBuild
-        .run("src/lambda")
+        .run("src/lambda", webpackConfig)
         .then(function(stats) {
           console.log(stats.toString({ color: true }))
           return res
@@ -34,7 +35,7 @@ module.exports = (api, projectOptions) => {
       }
     }
 
-    const forked = fork(path.join(__dirname, 'serve.js'))
+    const forked = fork(path.join(__dirname, 'serve.js'), webpackConfig ? [webpackConfig] : null)
     return serveFn(...args)
   }
 }
