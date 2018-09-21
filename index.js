@@ -34,7 +34,7 @@ module.exports = (api, projectOptions) => {
       }
     }
 
-    const forked = fork(path.join(__dirname, 'serve.js'), webpackConfig ? [webpackConfig] : null)
+    fork(require.resolve('netlify-lambda'), ['serve', 'src/lambda', ...(webpackConfig ? ['-c', webpackConfig] : [])]);
     return serveFn(...args)
   }
 }
