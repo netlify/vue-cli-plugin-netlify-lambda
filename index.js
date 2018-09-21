@@ -1,40 +1,39 @@
 const { fork } = require('child_process')
 const path = require('path')
 const lambdaBuild = require('netlify-lambda/lib/build')
+const lambdaServe = require("netlify-lambda/lib/serve");
+
+const buildFunction = () => {
+  return lambdaBuild
+    .run("src/lambda")
+    .then(stats => {
+      console.log(stats.toString({ color: true }))
+    })
+    .catch(err => {
+      console.log(err)
+      process.exit(1)
+    })
+}
+const serveFunction = () => {
+  return lambdaServe
+    .listen('9000')
+}
 
 module.exports = (api, projectOptions) => {
-  const {build, serve} = api.service.commands;
-  const buildFn = build.fn;
-  const serveFn = serve.fn;
-
-  build.fn = (...args) => {
-    return buildFn(...args).then((res) => {
-      return lambdaBuild
-        .run("src/lambda")
-        .then(function(stats) {
-          console.log(stats.toString({ color: true }))
-          return res
-        })
-        .catch(function(err) {
-          console.error(err)
-          process.exit(1)
-        })
-    })
-  }
-
-  serve.fn = (...args) => {
-    const devServer = api.service.projectOptions.devServer = api.service.projectOptions.devServer || {}
-    if (!devServer.proxy) {
-      devServer.proxy = {}
-    }
-    devServer.proxy['/.netlify/functions'] = {
-      "target": "http://localhost:9000",
-      "pathRewrite": {
-        "^/\\.netlify/functions": ""
-      }
-    }
-
-    const forked = fork(path.join(__dirname, 'serve.js'))
-    return serveFn(...args)
-  }
+  api.registerCommand(
+    `netlify-lambda:build`,
+    {
+      description: "build a netlify function",
+      usage: "vue-cli-service netlify-lambda"
+    },
+    buildFunction
+  )
+  api.registerCommand(
+    `netlify-lambda:serve`,
+    {
+      description: "build a netlify function",
+      usage: "vue-cli-service netlify-lambda"
+    },
+    serveFunction
+  )
 }
