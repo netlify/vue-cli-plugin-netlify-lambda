@@ -18,6 +18,7 @@
   },
   "author": "Netlify",
   "license": "MIT",
+  "repository": "netlify/vue-cli-plugin-netlify-lambda",
   "dependencies": {
     "@vue/cli": "^3.0.1",
     "@vue/cli-plugin-babel": "^3.0.1",

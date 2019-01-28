@@ -6,20 +6,20 @@ module.exports = (api, projectOptions) => {
   const {build, serve} = api.service.commands;
   const buildFn = build.fn;
   const serveFn = serve.fn;
+  const webpackConfig = projectOptions.pluginOptions && projectOptions.pluginOptions.netlify && projectOptions.pluginOptions.netlify.webpackConfig;
 
-  build.fn = (...args) => {
-    return buildFn(...args).then((res) => {
-      return lambdaBuild
-        .run("src/lambda")
-        .then(function(stats) {
-          console.log(stats.toString({ color: true }))
-          return res
-        })
-        .catch(function(err) {
-          console.error(err)
-          process.exit(1)
-        })
-    })
+  build.fn = async (...args) => {
+    try {
+      const [res, stats] = await Promise.all([
+        buildFn(...args),
+        lambdaBuild.run('src/lambda', webpackConfig),
+      ]);
+      console.log(stats.toString({ color: true }));
+      return res;
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
   }
 
   serve.fn = (...args) => {
@@ -34,7 +34,7 @@ module.exports = (api, projectOptions) => {
       }
     }
 
-    const forked = fork(path.join(__dirname, 'serve.js'))
+    fork(require.resolve('netlify-lambda'), ['serve', 'src/lambda', ...(webpackConfig ? ['-c', webpackConfig] : [])]);
     return serveFn(...args)
   }
 }
