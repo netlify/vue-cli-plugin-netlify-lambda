@@ -1,6 +1,6 @@
 {
   "name": "vue-cli-plugin-netlify-lambda",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Vue Cli plugin for adding Netlify Lambda",
   "main": "index.js",
   "scripts": {
