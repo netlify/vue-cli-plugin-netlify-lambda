@@ -12,7 +12,7 @@ vue add netlify-lambda
 
 ## Usage
 
-This ads a `netlify.toml` and a `src/lambda` folder with an example `hello.js` lambda function.
+This adds a `netlify.toml` and a `src/lambda` folder with an example `hello.js` lambda function.
 
 Any js file added in `src/lambda` will be built as a lambda. It will be compiled with webpack and babel and any imports will be bundled (no native dependencies, though).
 
